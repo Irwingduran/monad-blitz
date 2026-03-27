@@ -2,7 +2,7 @@
 pragma solidity ^0.8.24;
 
 /**
- * @title CimaReputacion
+ * @title Reputacion
  * @notice Registro de trazabilidad y reputación on-chain para locatarios.
  *         Cada pago ejecutado por el agente queda registrado como un hecho
  *         verificable e inmutable. El score se calcula off-chain a partir
@@ -10,7 +10,7 @@ pragma solidity ^0.8.24;
  *
  *         Monad EVM-compatible — desplegable directamente.
  */
-contract CimaReputacion {
+contract Reputacion {
 
     // ──────────────────────────────────────────────
     //  Tipos

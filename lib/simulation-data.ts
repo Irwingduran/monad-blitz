@@ -1,16 +1,20 @@
 import type { UIMessage } from "ai"
 
 /**
- * Conversación simulada: un turista estadounidense llega a CDMX
- * para el Mundial 2026. El agente OndaMonad lo guía paso a paso:
- * transporte, comida, pagos on-chain y reputación verificable.
+ * Simulación interactiva: un turista llega a CDMX para el Mundial 2026.
+ * El usuario clickea la sugerencia → se muestra su mensaje →
+ * el agente responde con typing animado.
  *
- * Cada "step" contiene uno o más mensajes que se revelan juntos.
+ * Cada "exchange" tiene el texto del usuario y la respuesta del agente.
  */
 
-export interface SimulationStep {
-  messages: UIMessage[]
-  delay: number // ms antes de mostrar el siguiente step
+export interface SimulationExchange {
+  /** Texto que ve el usuario como sugerencia clickeable */
+  userPrompt: string
+  /** Mensaje del usuario que aparece en el chat */
+  userMessage: UIMessage
+  /** Respuesta(s) del agente */
+  agentMessages: UIMessage[]
 }
 
 // ai SDK v6 usa "dynamic-tool" como type para tools dinámicas
@@ -30,48 +34,32 @@ function toolPart(data: {
 let idCounter = 0
 const nextId = () => `sim-${++idCounter}`
 
-export function getSimulationSteps(): SimulationStep[] {
+export function getSimulationExchanges(): SimulationExchange[] {
   idCounter = 0
 
   return [
-    // ─── Step 1: Turista llega al aeropuerto ─────────────────────
+    // ─── 1: Turista llega al aeropuerto ──────────────────────────
     {
-      delay: 800,
-      messages: [
-        {
-          id: nextId(),
-          role: "user",
-          parts: [
-            {
-              type: "text",
-              text: "Hey! I just landed at Mexico City airport for the World Cup. I need to get to my hotel in Polanco. What's the best way?",
-            },
-          ],
-        },
-      ],
-    },
-
-    // ─── Step 2: Agente responde con rutas ───────────────────────
-    {
-      delay: 2000,
-      messages: [
+      userPrompt: "Acabo de aterrizar en el aeropuerto de CDMX para el Mundial. ¿Cómo llego a mi hotel en Polanco?",
+      userMessage: {
+        id: nextId(),
+        role: "user",
+        parts: [{ type: "text", text: "Acabo de aterrizar en el aeropuerto de CDMX para el Mundial. ¿Cómo llego a mi hotel en Polanco?" }],
+      },
+      agentMessages: [
         {
           id: nextId(),
           role: "assistant",
           parts: [
             {
               type: "text",
-              text: "Welcome to CDMX! 🇲🇽 Great timing for the World Cup. Let me find the best routes from the airport to Polanco for you.",
+              text: "¡Bienvenido a la CDMX! 🇲🇽 Excelente timing para el Mundial. Te busco las mejores opciones del aeropuerto a Polanco.",
             },
             toolPart({
               toolCallId: "route-1",
               toolName: "getRoute",
               state: "output-available",
-              input: {
-                origin: "Aeropuerto",
-                destination: "Polanco",
-                preferredMode: "any",
-              },
+              input: { origin: "Aeropuerto", destination: "Polanco", preferredMode: "any" },
               output: {
                 state: "ready",
                 origin: "Aeropuerto (AICM)",
@@ -102,51 +90,35 @@ export function getSimulationSteps(): SimulationStep[] {
             }),
             {
               type: "text",
-              text: "The Metro is incredibly cheap ($5 MXN ≈ $0.25 USD) but it involves one transfer and can be crowded with luggage. Uber is faster and more comfortable — I'd recommend it for your first trip with bags. Want me to help with anything else once you arrive?",
+              text: "El Metro es baratísimo ($5 MXN ≈ $0.25 USD) pero implica un transbordo y puede ser complicado con maletas. Uber es más rápido y cómodo — te lo recomiendo para tu primer viaje con equipaje.",
             },
           ],
         },
       ],
     },
 
-    // ─── Step 3: Turista pregunta por comida ─────────────────────
+    // ─── 2: Buscar comida ────────────────────────────────────────
     {
-      delay: 1500,
-      messages: [
-        {
-          id: nextId(),
-          role: "user",
-          parts: [
-            {
-              type: "text",
-              text: "I'll take Uber, thanks! Once I'm at the hotel, where can I get some authentic tacos near Polanco? Something the locals actually eat.",
-            },
-          ],
-        },
-      ],
-    },
-
-    // ─── Step 4: Agente recomienda lugares ───────────────────────
-    {
-      delay: 2200,
-      messages: [
+      userPrompt: "¡Va, Uber! Ya estando en el hotel, ¿dónde como unos buenos tacos cerca de Polanco?",
+      userMessage: {
+        id: nextId(),
+        role: "user",
+        parts: [{ type: "text", text: "¡Va, Uber! Ya estando en el hotel, ¿dónde como unos buenos tacos cerca de Polanco? Algo que coman los locales de verdad." }],
+      },
+      agentMessages: [
         {
           id: nextId(),
           role: "assistant",
           parts: [
             {
               type: "text",
-              text: "Great choice! Here are my top picks for real-deal tacos in Polanco — all verified merchants on our network with on-chain reputation:",
+              text: "¡Buena elección! Aquí van mis top picks de tacos reales en Polanco — todos verificados en nuestra red con reputación on-chain:",
             },
             toolPart({
               toolCallId: "rec-1",
               toolName: "getRecommendations",
               state: "output-available",
-              input: {
-                location: "Polanco",
-                category: "restaurant",
-                query: "tacos autenticos",
-              },
+              input: { location: "Polanco", category: "restaurant", query: "tacos autenticos" },
               output: {
                 state: "ready",
                 location: "Polanco",
@@ -182,41 +154,29 @@ export function getSimulationSteps(): SimulationStep[] {
             }),
             {
               type: "text",
-              text: "Notice the 🔗 on-chain badges — these merchants have verified transaction histories on Monad. El Turix has 127 successful payments registered; no fake reviews, just real transactions. Want to pay with crypto when you go?",
+              text: "Fíjate en los badges 🔗 on-chain — estos negocios tienen historial de transacciones verificado en Monad. El Turix tiene 127 pagos registrados; no son reseñas falsas, son transacciones reales. ¿Quieres pagar con cripto cuando vayas?",
             },
           ],
         },
       ],
     },
 
-    // ─── Step 5: Turista quiere pagar con cripto ─────────────────
+    // ─── 3: Pagar con cripto ─────────────────────────────────────
     {
-      delay: 1800,
-      messages: [
-        {
-          id: nextId(),
-          role: "user",
-          parts: [
-            {
-              type: "text",
-              text: "El Turix looks amazing! Yes, I'd love to pay with crypto. I have some USDC. How does it work?",
-            },
-          ],
-        },
-      ],
-    },
-
-    // ─── Step 6: Agente explica y ejecuta pago simulado ──────────
-    {
-      delay: 2500,
-      messages: [
+      userPrompt: "¡El Turix se ve increíble! Sí, quiero pagar con cripto. Tengo USDC.",
+      userMessage: {
+        id: nextId(),
+        role: "user",
+        parts: [{ type: "text", text: "¡El Turix se ve increíble! Sí, quiero pagar con cripto. Tengo USDC, ¿cómo funciona?" }],
+      },
+      agentMessages: [
         {
           id: nextId(),
           role: "assistant",
           parts: [
             {
               type: "text",
-              text: "Here's how it works: you pay in USDC on Monad, we swap it to MXNB instantly, and El Turix receives pesos in their bank account via SPEI. They don't need to know about crypto — they just get paid. Let me set up a payment for a typical taco meal:",
+              text: "Así funciona: tú pagas en USDC sobre Monad, hacemos el swap a MXNB al instante, y El Turix recibe pesos en su cuenta bancaria por SPEI. Ellos no necesitan saber de cripto — simplemente les llega su pago. Te preparo uno para una comida típica:",
             },
             toolPart({
               toolCallId: "pay-1",
@@ -239,99 +199,71 @@ export function getSimulationSteps(): SimulationStep[] {
             }),
             {
               type: "text",
-              text: "Once you confirm, the payment goes through in seconds. The swap rate is transparent — no hidden 8-12% exchange fees like currency exchange booths. And this transaction gets registered on-chain automatically, building El Turix's verified reputation score.",
+              text: "Cuando confirmes, el pago se procesa en segundos. El tipo de cambio es transparente — sin las comisiones ocultas del 8-12% de las casas de cambio. Y esta transacción se registra on-chain automáticamente, construyendo el score de reputación verificado de El Turix.",
             },
           ],
         },
       ],
     },
 
-    // ─── Step 7: Turista pregunta sobre reputación ───────────────
+    // ─── 4: Preguntar sobre reputación ───────────────────────────
     {
-      delay: 2000,
-      messages: [
-        {
-          id: nextId(),
-          role: "user",
-          parts: [
-            {
-              type: "text",
-              text: "That's cool! So all these on-chain records... how does the reputation system actually work? How do I know I can trust a place?",
-            },
-          ],
-        },
-      ],
-    },
-
-    // ─── Step 8: Agente explica el smart contract ────────────────
-    {
-      delay: 2800,
-      messages: [
+      userPrompt: "¿Cómo funciona exactamente el sistema de reputación on-chain?",
+      userMessage: {
+        id: nextId(),
+        role: "user",
+        parts: [{ type: "text", text: "Está buenísimo eso. Y todos estos registros on-chain... ¿cómo funciona el sistema de reputación? ¿Cómo sé que puedo confiar en un lugar?" }],
+      },
+      agentMessages: [
         {
           id: nextId(),
           role: "assistant",
           parts: [
             {
               type: "text",
-              text: `Every payment through OndaMonad creates an immutable record on Monad via our Reputación smart contract. Here's what gets tracked for each merchant:
+              text: `Cada pago que pasa por OndaMonad crea un registro inmutable en Monad a través de nuestro smart contract de Reputación. Esto es lo que se trackea por cada negocio:
 
 📊 **Perfil on-chain de El Turix:**
-• Total transactions: 127
-• Total volume: 48,350 MXNB
-• First transaction: March 15, 2026
-• Last transaction: Today
-• Open disputes: 0
-• Resolved disputes: 1 (out of 127 — 99.2% clean)
+• Transacciones totales: 127
+• Volumen total: 48,350 MXNB
+• Primera transacción: 15 de marzo, 2026
+• Última transacción: Hoy
+• Disputas abiertas: 0
+• Disputas resueltas: 1 (de 127 — 99.2% limpio)
 
-This data is 100% public and verifiable — anyone can audit it on the Monad explorer. No one can fake it, delete it, or buy better numbers. It's the opposite of TripAdvisor where reviews can be bought.
+Estos datos son 100% públicos y verificables — cualquiera puede auditarlos en el explorador de Monad. Nadie puede falsificarlos, borrarlos ni comprar mejores números. Es lo opuesto a TripAdvisor donde compras reseñas.
 
-The smart contract categorizes every payment (Food, Transport, Events, Lodging, Experiences) so you can see exactly what kind of business they do. The reputation score is calculated off-chain from this public data.
+El contrato categoriza cada pago (Comida, Transporte, Eventos, Hospedaje, Experiencias) para que veas exactamente qué tipo de negocio hacen. El score de reputación se calcula off-chain a partir de estos datos públicos.
 
-Think of it as a credit score for local businesses — but transparent and owned by no one. 🔗`,
+Piensa en ello como un buró de crédito para negocios locales — pero transparente y que no le pertenece a nadie. 🔗`,
             },
           ],
         },
       ],
     },
 
-    // ─── Step 9: Turista pregunta por el partido ─────────────────
+    // ─── 5: Planear el partido ───────────────────────────────────
     {
-      delay: 1500,
-      messages: [
-        {
-          id: nextId(),
-          role: "user",
-          parts: [
-            {
-              type: "text",
-              text: "That's really smart. Now, my match is tomorrow at Estadio Azteca. Can you help me plan the route from Polanco and maybe find a place to pregame near the stadium?",
-            },
-          ],
-        },
-      ],
-    },
-
-    // ─── Step 10: Agente da ruta al Azteca + recomendaciones ─────
-    {
-      delay: 2500,
-      messages: [
+      userPrompt: "Mi partido es mañana en el Azteca. ¿Me ayudas a planear la ruta y dónde comer antes?",
+      userMessage: {
+        id: nextId(),
+        role: "user",
+        parts: [{ type: "text", text: "Buenísimo. Oye, mi partido es mañana en el Estadio Azteca. ¿Me ayudas con la ruta desde Polanco y un lugar para comer antes del partido?" }],
+      },
+      agentMessages: [
         {
           id: nextId(),
           role: "assistant",
           parts: [
             {
               type: "text",
-              text: "Match day! 🏟️ Let me plan your route to Estadio Azteca and find some spots near the stadium.",
+              text: "¡Día de partido! 🏟️ Te planeo la ruta al Estadio Azteca y te busco spots cerca del estadio.",
             },
             toolPart({
               toolCallId: "route-2",
               toolName: "getRoute",
               state: "output-available",
-              input: {
-                origin: "Polanco",
-                destination: "Estadio Azteca",
-                preferredMode: "any",
-              },
+              input: { origin: "Polanco", destination: "Estadio Azteca", preferredMode: "any" },
               output: {
                 state: "ready",
                 origin: "Polanco",
@@ -365,16 +297,12 @@ Think of it as a credit score for local businesses — but transparent and owned
               toolCallId: "rec-2",
               toolName: "getRecommendations",
               state: "output-available",
-              input: {
-                location: "Estadio Azteca",
-                category: "any",
-                query: "pre-game food drinks",
-              },
+              input: { location: "Estadio Azteca", category: "any", query: "comida bebidas pre-partido" },
               output: {
                 state: "ready",
                 location: "Estadio Azteca",
                 category: "any",
-                query: "pre-game food drinks",
+                query: "comida bebidas pre-partido",
                 places: [
                   {
                     name: "Fan Fest Azteca",
@@ -397,49 +325,38 @@ Think of it as a credit score for local businesses — but transparent and owned
             }),
             {
               type: "text",
-              text: "Pro tip: take the Metro on match day — traffic gets insane around the Azteca. Leave 2 hours early. The Fan Fest is the place to be pre-game, and you can pay for everything there with crypto through me. All transactions traceable on Monad. Enjoy the match! ⚽",
+              text: "Pro tip: toma el Metro en día de partido — el tráfico alrededor del Azteca se pone loco. Sal 2 horas antes. El Fan Fest es el lugar para calentar antes del partido, y puedes pagar todo ahí con cripto a través de mí. Todas las transacciones rastreables en Monad. ¡Disfruta el partido! ⚽",
             },
           ],
         },
       ],
     },
 
-    // ─── Step 11: Cierre — agente resume el valor ────────────────
+    // ─── 6: Cierre ───────────────────────────────────────────────
     {
-      delay: 2000,
-      messages: [
-        {
-          id: nextId(),
-          role: "user",
-          parts: [
-            {
-              type: "text",
-              text: "This is incredible. One conversation and I've got transport, food, payments, and I can verify everything on-chain. Way better than juggling 5 different apps.",
-            },
-          ],
-        },
-      ],
-    },
-
-    {
-      delay: 2200,
-      messages: [
+      userPrompt: "Increíble. Una sola conversación y ya tengo todo resuelto.",
+      userMessage: {
+        id: nextId(),
+        role: "user",
+        parts: [{ type: "text", text: "Esto es increíble. Una sola conversación y tengo transporte, comida, pagos y puedo verificar todo on-chain. Mucho mejor que andar con 5 apps diferentes." }],
+      },
+      agentMessages: [
         {
           id: nextId(),
           role: "assistant",
           parts: [
             {
               type: "text",
-              text: `That's exactly the idea! 🎯 Here's what we just did in one conversation:
+              text: `¡Exactamente la idea! 🎯 Esto es lo que resolvimos en una sola conversación:
 
 🚇 **Transporte** — Ruta óptima del aeropuerto a tu hotel + al Estadio Azteca
 🌮 **Comida** — Restaurantes verificados con reputación on-chain real
-💰 **Pagos** — Crypto → pesos en segundos, sin comisiones abusivas
+💰 **Pagos** — Cripto → pesos en segundos, sin comisiones abusivas
 🔗 **Trazabilidad** — Cada transacción registrada en Monad, verificable por cualquiera
 
-No currency exchange scams. No fake reviews. No 15-30% platform fees for merchants. Just one agent that plans, pays, and proves everything on-chain.
+Sin estafas de casas de cambio. Sin reseñas falsas. Sin comisiones del 15-30% para los negocios. Un solo agente que planea, paga y comprueba todo on-chain.
 
-Welcome to CDMX. Enjoy the Mundial! 🇲🇽⚽`,
+¡Bienvenido a la CDMX. Disfruta el Mundial! 🇲🇽⚽`,
             },
           ],
         },
