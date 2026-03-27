@@ -31,7 +31,7 @@ export function ForBusiness() {
                 </div>
                 <div className="pt-2 pb-4">
                   <p className="text-sm font-medium text-foreground">Turista paga con USDC</p>
-                  <p className="text-[10px] text-muted-foreground">En la conversacion con Cima</p>
+                  <p className="text-[10px] text-muted-foreground">En la conversacion con OndaMonad</p>
                 </div>
               </div>
 
@@ -67,7 +67,7 @@ export function ForBusiness() {
               </div>
               <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 text-center">
                 <div className="text-2xl font-bold text-primary">Directo</div>
-                <div className="text-[10px] text-muted-foreground mt-1">Con Cima</div>
+                <div className="text-[10px] text-muted-foreground mt-1">Con OndaMonad</div>
               </div>
             </div>
           </div>

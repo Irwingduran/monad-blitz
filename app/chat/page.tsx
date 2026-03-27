@@ -39,10 +39,10 @@ export default function ChatPage() {
             <div className="max-w-2xl w-full text-center">
               <div className="mb-8">
                 <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-3xl font-bold text-primary">C</span>
+                  <span className="text-3xl font-bold text-primary">O</span>
                 </div>
                 <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-                  Hola, soy Cima
+                  Hola, soy OndaMonad
                 </h1>
                 <p className="text-muted-foreground">
                   Tu asistente para navegar la Ciudad de Mexico. Preguntame sobre rutas, 

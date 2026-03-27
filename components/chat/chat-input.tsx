@@ -38,7 +38,7 @@ export function ChatInput({ input, setInput, onSend, isLoading }: ChatInputProps
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Pregunta a Cima..."
+            placeholder="Pregunta a OndaMonad..."
             className="min-h-[44px] max-h-[200px] resize-none border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 pr-20 text-sm"
             disabled={isLoading}
             rows={1}
@@ -68,7 +68,7 @@ export function ChatInput({ input, setInput, onSend, isLoading }: ChatInputProps
         </div>
         
         <p className="text-xs text-muted-foreground text-center mt-2">
-          Cima puede cometer errores. Verifica informacion importante.
+          OndaMonad puede cometer errores. Verifica informacion importante.
         </p>
       </div>
     </div>

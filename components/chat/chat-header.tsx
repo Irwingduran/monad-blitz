@@ -18,7 +18,7 @@ export function ChatHeader() {
             <Mountain className="h-4 w-4 text-primary-foreground" />
           </div>
           <div>
-            <span className="font-semibold text-foreground text-sm">Cima</span>
+            <span className="font-semibold text-foreground text-sm">OndaMonad</span>
             <div className="flex items-center gap-1">
               <span className="h-2 w-2 rounded-full bg-green-500" />
               <span className="text-xs text-muted-foreground">En linea</span>

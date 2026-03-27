@@ -91,7 +91,7 @@ export function Problem() {
               </div>
               <div>
                 <div className="flex justify-between text-xs mb-1.5">
-                  <span className="text-muted-foreground">Con Cima</span>
+                  <span className="text-muted-foreground">Con OndaMonad</span>
                   <span className="font-semibold text-primary">Directo</span>
                 </div>
                 <div className="h-6 rounded-full bg-muted overflow-hidden">

@@ -216,7 +216,7 @@ const tools = {
   getRecommendations: getRecommendationsTool,
 }
 
-const systemPrompt = `Eres Cima, un asistente de IA amigable y util para navegar la Ciudad de Mexico.
+const systemPrompt = `Eres OndaMonad, un asistente de IA amigable y util para navegar la Ciudad de Mexico.
 
 Tu personalidad:
 - Eres bilingue (espanol e ingles), pero prefieres responder en espanol a menos que el usuario escriba en ingles

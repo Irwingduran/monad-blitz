@@ -61,7 +61,7 @@ export function Features() {
           </p>
         </div>
 
-        {/* ── Comparison: Others vs Cima — side by side ── */}
+        {/* ── Comparison: Others vs OndaMonad — side by side ── */}
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           {/* Others */}
           <div className="rounded-2xl border border-border bg-card p-6">
@@ -84,9 +84,9 @@ export function Features() {
             </div>
           </div>
 
-          {/* Cima */}
+          {/* OndaMonad */}
           <div className="rounded-2xl border-2 border-primary/30 bg-card p-6 shadow-lg shadow-primary/5">
-            <p className="text-xs font-medium text-primary uppercase tracking-widest mb-5">Cima</p>
+            <p className="text-xs font-medium text-primary uppercase tracking-widest mb-5">OndaMonad</p>
             <div className="space-y-3">
               {[
                 "Reserva, paga y confirma por ti",

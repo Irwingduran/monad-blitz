@@ -11,7 +11,7 @@ export function Footer() {
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
                 <Mountain className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold tracking-tight text-foreground">Cima</span>
+              <span className="text-xl font-bold tracking-tight text-foreground">OndaMonad</span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-sm leading-relaxed mb-4">
               El primer agente urbano que planea, reserva, paga y deja 
@@ -37,7 +37,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/chat" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Hablar con Cima
+                  Hablar con OndaMonad
                 </Link>
               </li>
             </ul>
@@ -67,7 +67,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            2026 Cima. Trazabilidad on-chain en Monad.
+            2026 OndaMonad. Trazabilidad on-chain en Monad.
           </p>
           <div className="flex items-center gap-6">
             <Link href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">

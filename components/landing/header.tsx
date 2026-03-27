@@ -15,7 +15,7 @@ export function Header() {
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
             <Mountain className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-xl font-bold tracking-tight text-foreground">Cima</span>
+          <span className="text-xl font-bold tracking-tight text-foreground">OndaMonad</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -35,7 +35,7 @@ export function Header() {
             <Link href="/chat">Iniciar chat</Link>
           </Button>
           <Button size="sm" asChild>
-            <Link href="/chat">Probar Cima</Link>
+            <Link href="/chat">Probar OndaMonad</Link>
           </Button>
         </div>
 
@@ -77,7 +77,7 @@ export function Header() {
                 <Link href="/chat">Iniciar chat</Link>
               </Button>
               <Button size="sm" asChild>
-                <Link href="/chat">Probar Cima</Link>
+                <Link href="/chat">Probar OndaMonad</Link>
               </Button>
             </div>
           </nav>

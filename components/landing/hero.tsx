@@ -21,7 +21,7 @@ export function Hero() {
             No busques, No compares. Solo pide
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-xl mb-12">
-           Transporte, sitios turísticos, comida y pagos en un solo lugar (todo desde un chat, todo verificado on-chain)
+           Transporte, sitios turísticos, comida,  pagos y mucho más en un solo lugar (todo desde un chat, todo verificado on-chain)
           </p>
 
           {/* ── VISUAL CORE: the "one chat replaces everything" ── */}
@@ -60,9 +60,9 @@ export function Hero() {
               <div className="hidden lg:block h-px w-16 bg-border" />
             </div>
 
-            {/* RIGHT — the Cima chat (the solution) */}
+            {/* RIGHT — the OndaMonad chat (the solution) */}
             <div className="relative">
-              <p className="text-xs font-medium text-primary uppercase tracking-widest text-center mb-3">Con Cima</p>
+              <p className="text-xs font-medium text-primary uppercase tracking-widest text-center mb-3">Con OndaMonad</p>
               <div className="rounded-2xl border-2 border-primary/30 bg-card shadow-2xl shadow-primary/10 overflow-hidden">
                 <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border bg-muted/50">
                   <div className="flex gap-1.5">
@@ -70,7 +70,7 @@ export function Hero() {
                     <div className="h-2.5 w-2.5 rounded-full bg-accent/40" />
                     <div className="h-2.5 w-2.5 rounded-full bg-primary/40" />
                   </div>
-                  <span className="text-[10px] text-muted-foreground ml-1.5 font-medium">Cima</span>
+                  <span className="text-[10px] text-muted-foreground ml-1.5 font-medium">OndaMonad</span>
                 </div>
                 <div className="p-4 space-y-3 text-left">
                   <div className="flex justify-end">
@@ -102,7 +102,7 @@ export function Hero() {
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <Button size="lg" asChild className="group h-12 px-8 text-base">
               <Link href="/chat">
-                Habla con Cima
+                Habla con OndaMonad
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>

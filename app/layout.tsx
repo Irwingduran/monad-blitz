@@ -15,9 +15,9 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Cima | Tu asistente inteligente para CDMX',
+  title: 'OndaMonad | Tu asistente inteligente para CDMX',
   description: 'Navega la Ciudad de Mexico con IA. Rutas de Metro, Metrobus, Uber y pagos cripto en Monad.',
-  generator: 'Cima',
+  generator: 'OndaMonad',
   icons: {
     icon: [
       {
