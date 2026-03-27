@@ -8,20 +8,15 @@ export function Hero() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 text-black bg-accent/10 px-5 py-2 text-sm font-medium text-accent-foreground mb-8">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
-            </span>
-           No busques, No compares. Solo pide
-          </div>
+        
 
           {/* Headline — short, visual */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-4 leading-[1.1]">
-            No busques, No compares. Solo pide
+            Tu ciudad en una conversación.{" "}
+            <span className="text-primary">Sin apps extras, sin fricción.</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-xl mb-12">
-           Transporte, sitios turísticos, comida,  pagos y mucho más en un solo lugar (todo desde un chat, todo verificado on-chain)
+            Un solo chat que planea tu ruta, reserva tu lugar, paga tu cuenta y deja todo verificado on-chain — transporte, comida, eventos y pagos resueltos en segundos.
           </p>
 
           {/* ── VISUAL CORE: the "one chat replaces everything" ── */}

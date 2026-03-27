@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from "react"
 import type { UIMessage } from "ai"
+import { isToolUIPart, getToolName } from "ai"
 import { cn } from "@/lib/utils"
 import { Mountain, User } from "lucide-react"
 import { RouteCard } from "@/components/chat/route-card"
@@ -39,7 +40,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
 
           // Check for tool calls in message parts
           const toolCalls = message.parts?.filter(
-            (p) => p.type === "tool-invocation"
+            (p) => isToolUIPart(p)
           ) || []
 
           return (
@@ -74,9 +75,10 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
                 )}
                 
                 {toolCalls.map((toolCall, idx) => {
-                  if (toolCall.type !== "tool-invocation") return null
+                  if (!isToolUIPart(toolCall)) return null
+                  const name = getToolName(toolCall)
                   
-                  if (toolCall.toolName === "getRoute") {
+                  if (name === "getRoute") {
                     return (
                       <RouteCard 
                         key={idx} 
@@ -86,7 +88,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
                     )
                   }
                   
-                  if (toolCall.toolName === "initiatePayment") {
+                  if (name === "initiatePayment") {
                     return (
                       <PaymentCard 
                         key={idx}
@@ -96,7 +98,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
                     )
                   }
 
-                  if (toolCall.toolName === "getRecommendations") {
+                  if (name === "getRecommendations") {
                     return (
                       <RecommendationCard 
                         key={idx}
